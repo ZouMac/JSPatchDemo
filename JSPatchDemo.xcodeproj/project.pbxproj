@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		630E317120F36318009A92C1 /* JSPatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 630E317020F36318009A92C1 /* JSPatchViewController.m */; };
+		6358A53C20F35870001357E4 /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = 6358A53B20F35870001357E4 /* main.js */; };
+		63809A7620F3557000ABBFCA /* packer.php in Resources */ = {isa = PBXBuildFile; fileRef = 63809A6420F3557000ABBFCA /* packer.php */; };
+		63809A7720F3557000ABBFCA /* RSA.m in Sources */ = {isa = PBXBuildFile; fileRef = 63809A6820F3557000ABBFCA /* RSA.m */; };
+		63809A7820F3557000ABBFCA /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 63809A6A20F3557000ABBFCA /* unzip.c */; };
+		63809A7920F3557000ABBFCA /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 63809A6B20F3557000ABBFCA /* zip.c */; };
+		63809A7A20F3557000ABBFCA /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 63809A6C20F3557000ABBFCA /* ioapi.c */; };
+		63809A7B20F3557000ABBFCA /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 63809A6D20F3557000ABBFCA /* mztools.c */; };
+		63809A7C20F3557000ABBFCA /* ZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 63809A7320F3557000ABBFCA /* ZipArchive.m */; };
+		63809A7D20F3557000ABBFCA /* JPLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 63809A7520F3557000ABBFCA /* JPLoader.m */; };
+		63809A8020F3559B00ABBFCA /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63809A7F20F3559B00ABBFCA /* JavaScriptCore.framework */; };
 		63D1832E20F2459D004A495C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1832D20F2459D004A495C /* AppDelegate.m */; };
 		63D1833120F2459D004A495C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1833020F2459D004A495C /* ViewController.m */; };
 		63D1833420F2459D004A495C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63D1833220F2459D004A495C /* Main.storyboard */; };
@@ -51,6 +62,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		630E316F20F36318009A92C1 /* JSPatchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSPatchViewController.h; sourceTree = "<group>"; };
+		630E317020F36318009A92C1 /* JSPatchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSPatchViewController.m; sourceTree = "<group>"; };
+		6358A53B20F35870001357E4 /* main.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = main.js; sourceTree = "<group>"; };
+		63809A6420F3557000ABBFCA /* packer.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = packer.php; sourceTree = "<group>"; };
+		63809A6520F3557000ABBFCA /* JPLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPLoader.h; sourceTree = "<group>"; };
+		63809A6720F3557000ABBFCA /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
+		63809A6820F3557000ABBFCA /* RSA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSA.m; sourceTree = "<group>"; };
+		63809A6A20F3557000ABBFCA /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		63809A6B20F3557000ABBFCA /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		63809A6C20F3557000ABBFCA /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		63809A6D20F3557000ABBFCA /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		63809A6E20F3557000ABBFCA /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		63809A6F20F3557000ABBFCA /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		63809A7020F3557000ABBFCA /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		63809A7120F3557000ABBFCA /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		63809A7220F3557000ABBFCA /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		63809A7320F3557000ABBFCA /* ZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZipArchive.m; sourceTree = "<group>"; };
+		63809A7420F3557000ABBFCA /* RSA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSA.h; sourceTree = "<group>"; };
+		63809A7520F3557000ABBFCA /* JPLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPLoader.m; sourceTree = "<group>"; };
+		63809A7F20F3559B00ABBFCA /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		63D1832920F2459D004A495C /* JSPatchDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JSPatchDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63D1832C20F2459D004A495C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		63D1832D20F2459D004A495C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -145,6 +176,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63809A8020F3559B00ABBFCA /* JavaScriptCore.framework in Frameworks */,
 				63D183B820F26970004A495C /* libffi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,11 +184,67 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		63809A6220F3557000ABBFCA /* Loader */ = {
+			isa = PBXGroup;
+			children = (
+				63809A6320F3557000ABBFCA /* tools */,
+				63809A6520F3557000ABBFCA /* JPLoader.h */,
+				63809A6620F3557000ABBFCA /* libs */,
+				63809A7520F3557000ABBFCA /* JPLoader.m */,
+			);
+			path = Loader;
+			sourceTree = "<group>";
+		};
+		63809A6320F3557000ABBFCA /* tools */ = {
+			isa = PBXGroup;
+			children = (
+				63809A6420F3557000ABBFCA /* packer.php */,
+			);
+			path = tools;
+			sourceTree = "<group>";
+		};
+		63809A6620F3557000ABBFCA /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				63809A6720F3557000ABBFCA /* ZipArchive.h */,
+				63809A6820F3557000ABBFCA /* RSA.m */,
+				63809A6920F3557000ABBFCA /* minizip */,
+				63809A7320F3557000ABBFCA /* ZipArchive.m */,
+				63809A7420F3557000ABBFCA /* RSA.h */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		63809A6920F3557000ABBFCA /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				63809A6A20F3557000ABBFCA /* unzip.c */,
+				63809A6B20F3557000ABBFCA /* zip.c */,
+				63809A6C20F3557000ABBFCA /* ioapi.c */,
+				63809A6D20F3557000ABBFCA /* mztools.c */,
+				63809A6E20F3557000ABBFCA /* crypt.h */,
+				63809A6F20F3557000ABBFCA /* zip.h */,
+				63809A7020F3557000ABBFCA /* unzip.h */,
+				63809A7120F3557000ABBFCA /* mztools.h */,
+				63809A7220F3557000ABBFCA /* ioapi.h */,
+			);
+			path = minizip;
+			sourceTree = "<group>";
+		};
+		63809A7E20F3559B00ABBFCA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				63809A7F20F3559B00ABBFCA /* JavaScriptCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		63D1832020F2459C004A495C = {
 			isa = PBXGroup;
 			children = (
 				63D1832B20F2459D004A495C /* JSPatchDemo */,
 				63D1832A20F2459D004A495C /* Products */,
+				63809A7E20F3559B00ABBFCA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -171,17 +259,21 @@
 		63D1832B20F2459D004A495C /* JSPatchDemo */ = {
 			isa = PBXGroup;
 			children = (
+				6358A53B20F35870001357E4 /* main.js */,
 				63D1832C20F2459D004A495C /* AppDelegate.h */,
 				63D1832D20F2459D004A495C /* AppDelegate.m */,
 				63D1832F20F2459D004A495C /* ViewController.h */,
 				63D1833020F2459D004A495C /* ViewController.m */,
 				63D1834820F2475E004A495C /* SecondViewController.h */,
 				63D1834920F2475E004A495C /* SecondViewController.m */,
+				630E316F20F36318009A92C1 /* JSPatchViewController.h */,
+				630E317020F36318009A92C1 /* JSPatchViewController.m */,
 				63D1833220F2459D004A495C /* Main.storyboard */,
 				63D1833520F2459E004A495C /* Assets.xcassets */,
 				63D1833720F2459E004A495C /* LaunchScreen.storyboard */,
 				63D1833A20F2459E004A495C /* Info.plist */,
 				63D1833B20F2459E004A495C /* main.m */,
+				63809A6220F3557000ABBFCA /* Loader */,
 				63D183BE20F2697A004A495C /* JSPatch */,
 				63D1834B20F26970004A495C /* Extensions */,
 			);
@@ -416,7 +508,9 @@
 			files = (
 				63D1833920F2459E004A495C /* LaunchScreen.storyboard in Resources */,
 				63D183C320F2697A004A495C /* JSPatch.js in Resources */,
+				63809A7620F3557000ABBFCA /* packer.php in Resources */,
 				63D1833620F2459E004A495C /* Assets.xcassets in Resources */,
+				6358A53C20F35870001357E4 /* main.js in Resources */,
 				63D183B220F26970004A495C /* README.md in Resources */,
 				63D1833420F2459D004A495C /* Main.storyboard in Resources */,
 			);
@@ -431,10 +525,12 @@
 			files = (
 				63D1834A20F2475E004A495C /* SecondViewController.m in Sources */,
 				63D183B720F26970004A495C /* JPMethodSignature.m in Sources */,
+				630E317120F36318009A92C1 /* JSPatchViewController.m in Sources */,
 				63D183B520F26970004A495C /* JPProtocol.m in Sources */,
 				63D183A920F26970004A495C /* JPCGContext.m in Sources */,
 				63D1833120F2459D004A495C /* ViewController.m in Sources */,
 				63D183AE20F26970004A495C /* JPDevMenu.m in Sources */,
+				63809A7720F3557000ABBFCA /* RSA.m in Sources */,
 				63D183A820F26970004A495C /* JPCGImage.m in Sources */,
 				63D183BA20F26970004A495C /* JPBlockWrapper.m in Sources */,
 				63D183AD20F26970004A495C /* JPUIKit.m in Sources */,
@@ -442,23 +538,29 @@
 				63D1839F20F26970004A495C /* JPStructPointer.m in Sources */,
 				63D183AB20F26970004A495C /* JPUIGeometry.m in Sources */,
 				63D183B420F26970004A495C /* SGDirWatchdog.m in Sources */,
+				63809A7C20F3557000ABBFCA /* ZipArchive.m in Sources */,
 				63D183A620F26970004A495C /* JPCGGeometry.m in Sources */,
 				63D183A720F26970004A495C /* JPCGTransform.m in Sources */,
 				63D183A520F26970004A495C /* JPCoreGraphics.m in Sources */,
 				63D183B620F26970004A495C /* JPSpecialInit.m in Sources */,
 				63D183A120F26970004A495C /* JPCFunction.m in Sources */,
+				63809A7820F3557000ABBFCA /* unzip.c in Sources */,
 				63D183BD20F26970004A495C /* JPNumber.m in Sources */,
 				63D183A420F26970004A495C /* JPCGBitmapContext.m in Sources */,
 				63D183AA20F26970004A495C /* JPUIGraphics.m in Sources */,
+				63809A7D20F3557000ABBFCA /* JPLoader.m in Sources */,
 				63D183C220F2697A004A495C /* JPEngine.m in Sources */,
 				63D183BC20F26970004A495C /* JPDispatch.m in Sources */,
+				63809A7920F3557000ABBFCA /* zip.c in Sources */,
 				63D183B320F26970004A495C /* JPKeyCommands.m in Sources */,
+				63809A7A20F3557000ABBFCA /* ioapi.c in Sources */,
 				63D1833C20F2459E004A495C /* main.m in Sources */,
 				63D1832E20F2459D004A495C /* AppDelegate.m in Sources */,
 				63D183B120F26970004A495C /* JPPlayground.m in Sources */,
 				63D183AF20F26970004A495C /* JPDevTipView.m in Sources */,
 				63D183B020F26970004A495C /* JPDevErrorView.m in Sources */,
 				63D183A320F26970004A495C /* JPCGPath.m in Sources */,
+				63809A7B20F3557000ABBFCA /* mztools.c in Sources */,
 				63D183B920F26970004A495C /* JPLocker.m in Sources */,
 				63D1839E20F26970004A495C /* JPCleaner.m in Sources */,
 				63D183A020F26970004A495C /* JPMemory.m in Sources */,
@@ -606,6 +708,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LJ786Y9SWT;
 				INFOPLIST_FILE = JSPatchDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -627,6 +730,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LJ786Y9SWT;
 				INFOPLIST_FILE = JSPatchDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

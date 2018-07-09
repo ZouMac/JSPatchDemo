@@ -8,6 +8,9 @@
 
 #import "ViewController.h"
 #import <objc/runtime.h>
+#import "JPEngine.h"
+#import "JSPatchViewController.h"
+
 
 @interface ViewController ()
 
@@ -80,6 +83,19 @@ static void setBlackBackground(id slf, SEL sel) {
     
 }
 
+- (IBAction)createSubview:(id)sender {
+    
+    [JPEngine startEngine];
+    NSString *sourcePath = [[NSBundle mainBundle] pathForResource:@"main" ofType:@"js"];
+    NSString *script = [NSString stringWithContentsOfFile:sourcePath encoding:NSUTF8StringEncoding error:nil];
+    [JPEngine evaluateScript:script];
+    
+//    创建tableView
+    Class JPTableViewControllerClass = NSClassFromString(@"JPTableViewController");
+    id JSPatchVC = [[JPTableViewControllerClass alloc] init];
+    [self.navigationController pushViewController:JSPatchVC animated:YES];
+    
+}
 
 
 - (void)didReceiveMemoryWarning {

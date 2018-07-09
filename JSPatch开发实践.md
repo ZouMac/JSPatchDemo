@@ -90,3 +90,61 @@ b.对于一个自定义id对象，JavaScriptCore 会把这个自定义对象的�
 
 ##JSPatch使用
 
+### OC与JSPatch代码转换
+
+```objective-c
+//OC
+@interface JPTableViewController : UITableViewController
+@end
+    
+@interface JPTableViewController()<UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
+    
+@end
+    
+@implementation JPTableViewController : UITableViewController
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+}
+@end
+```
+
+
+
+```js
+defineClass('JPTableViewController : UITableViewController <UIAlertViewDelegate>', ['data'], {
+    ...
+  },
+})
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
