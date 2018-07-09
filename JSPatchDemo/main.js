@@ -13,6 +13,13 @@
 //            self.navigationController().pushViewController_animated(tableViewCtrl, YES)
 //            }
 //            })
+defineClass('ViewController', {
+            otherCreateSubview:function(sender) {
+                var tableViewCtrl = JSPatchViewController.alloc().init()
+                self.navigationController().pushViewController_animated(tableViewCtrl, YES)
+            }
+            }
+)
 
 
 //tableView
