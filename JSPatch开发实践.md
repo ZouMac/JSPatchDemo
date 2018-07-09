@@ -94,31 +94,168 @@ b.对于一个自定义id对象，JavaScriptCore 会把这个自定义对象的�
 
 ```objective-c
 //OC
-@interface JPTableViewController : UITableViewController
+@interface CompareJSPatchController : UITableViewController
 @end
     
-@interface JPTableViewController()<UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
+@interface CompareJSPatchController()<UIAlertViewDelegate>
     
 @end
     
-@implementation JPTableViewController : UITableViewController
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+@implementation CompareJSPatchController
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
 }
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self dataSource].count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
+    }
+    cell.textLabel.text = [self dataSource][indexPath.row];
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert" message:[self dataSource][indexPath.row] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+    
+    NSLog(@"click btn %@",[alertView buttonTitleAtIndex:buttonIndex]);
+}
+
+
+- (NSArray *)dataSource {
+    
+    if (_data == nil) {
+        _data = [NSMutableArray array];
+        for (int i = 0; i < 20; i++) {
+            [_data addObject:[NSString stringWithFormat:@"cell from js %d",i]];
+        }
+    }
+    return _data;
+}
+
 @end
 ```
 
 
 
 ```js
-defineClass('JPTableViewController : UITableViewController <UIAlertViewDelegate>', ['data'], {
-    ...
-  },
+//JSPatch
+defineClass('CompareJSPatchController : UITableViewController <UIAlertViewDelegate>', ['data'], {
+            
+    dataSource: function() {
+    var data = self.data();
+    if (data) return data;
+    var data = [];
+    for (var i = 0; i < 20; i ++) {
+    data.push("cell from js " + i);
+    }
+    self.setData(data)
+    return data;
+    },
+
+
+    numberOfSectionsInTableView: function(tableView) {
+    return 1;
+    },
+
+
+    tableView_numberOfRowsInSection: function(tableView, section) {
+    return self.dataSource().length;
+    },
+
+
+    tableView_cellForRowAtIndexPath: function(tableView, indexPath) {
+    var cell = tableView.dequeueReusableCellWithIdentifier("cell")
+    if (!cell) {
+    cell = require('UITableViewCell').alloc().initWithStyle_reuseIdentifier(0, "cell")
+    }
+    cell.textLabel().setText(self.dataSource()[indexPath.row()])
+    return cell
+    },
+
+
+    tableView_heightForRowAtIndexPath: function(tableView, indexPath) {
+    return 60
+    },
+
+
+    tableView_didSelectRowAtIndexPath: function(tableView, indexPath) {
+    var alertView = require('UIAlertView').alloc().initWithTitle_message_delegate_cancelButtonTitle_otherButtonTitles("Alert",self.dataSource()[indexPath.row()], self, "OK",  null);
+    alertView.show()
+    },
+
+
+    alertView_willDismissWithButtonIndex: function(alertView, idx) {
+    console.log('click btn ' + alertView.buttonTitleAtIndex(idx).toJS())
+    }
+    })
 })
 ```
 
+####打印
+
+console.log();
+
+####Protocol
+
+```
+
+```
+
+####常用结构 同类方法,不能使用;结尾,需要使用逗号 或者什么都不写
+
+####导入头文件
+
+require('UIColor,UIView,NSURL,NSURLRequest,UIFont,UILabel'); 
+
+####在方法名前加 ORIG 即可调用未覆盖前的 OC 原方法:
+
+####动态新增 Property
+
+####结构体
+
+####Selector  注意方法名左右是双引号 “”
+
+####nil
+
+####NSArray / NSString / NSDictionary
+
+####Block
+
+####weak / strong
+
+####GCD
+
+####常量、枚举、宏、全局变量
+
+####stringWithFormat
+
+####NSNumber 相关问题
+
+####for...in
+
+####内存释放问题
+
+####dealloc 问题
 
 
 
+- [JSPatch 代码转换器](https://jspatch.com/Tools/convertor)
+
+## 总结
 
 
 

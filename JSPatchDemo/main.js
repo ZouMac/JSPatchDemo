@@ -7,19 +7,42 @@
 //view.setBackgroundColor(redColor);
 //var bgColor = view.backgroundColor();
 
-//defineClass('view', {
-//            handleBtn: function(sender) {
-//            var tableViewCtrl = JPTableViewController.alloc().init()
-//            self.navigationController().pushViewController_animated(tableViewCtrl, YES)
-//            }
-//            })
+defineClass('JSPatchViewController', {
+            handleBtn: function(sender) {
+            var tableViewCtrl = JPTableViewController.alloc().init()
+            self.navigationController().pushViewController_animated(tableViewCtrl, YES)
+            }
+            })
+
+require("UIButton, UIScreen, UIColor, JSPatchViewController");
+
 defineClass('ViewController', {
-            otherCreateSubview:function(sender) {
+            createSubview:function(sender) {
+                var tableViewCtrl = JSPatchViewController.alloc().init()
+                self.navigationController().pushViewController_animated(tableViewCtrl, YES)
+            },
+            
+            viewDidLoad:function() {
+                self.setTitle('NEW_FUNCTION_PAGE');
+                var button =  require('UIButton').buttonWithType(0);
+                button.setTitle_forState("newFunction", 0);
+//                var red = UIColor.redColor();
+                var blue = UIColor.blueColor();
+                button.setTitleColor_forState(blue, 0);
+//                button.setBackgroundColor(red);
+                self.view().addSubview(button);
+                button.setFrame({x:100, y:500, width:200, height:120});
+                button.addTarget_action_forControlEvents(self,"newFunc",1 << 6);
+            
+            },
+            
+            newFunc:function(){
+                console.log('new function start');
                 var tableViewCtrl = JSPatchViewController.alloc().init()
                 self.navigationController().pushViewController_animated(tableViewCtrl, YES)
             }
-            }
-)
+            
+            },{});
 
 
 //tableView
