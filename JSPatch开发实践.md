@@ -1,4 +1,4 @@
-#JSPatch开发实践
+#JSPatch学习实践
 
 ## JSPatch介绍
 
@@ -205,59 +205,284 @@ defineClass('CompareJSPatchController : UITableViewController <UIAlertViewDelega
 })
 ```
 
-####打印
+#### defineClass
 
-console.log();
+`defineClass(classDeclaration, [properties] instanceMethods, classMethods)`
+
+@param `classDeclaration`: 字符串，`className:superClassName <Protocol>`
+
+@param `properties`: 新增property，字符串数组，可省略 
+
+@param `instanceMethods`: 要添加或覆盖的实例方法 
+
+@param `classMethods`: 要添加或覆盖的类方法
+
+```js
+defineClass("类名",["成员变量"], {
+    //实例方法,不同方法之间使用逗号分隔
+    viewDidLoad:function() {
+        //do something
+    },
+    ...
+},
+    {
+    //类方法,不同方法之间使用逗号分隔
+    getClassName:function() {
+        console.log(self.class());
+        return self.class();
+    },
+    ...
+})
+```
+
+####ORIG使用原方法
+
+```javascript
+defineClass("类名",["成员变量"], {
+    //覆盖原方法
+    viewDidLoad:function() {
+        //do something
+    },
+    //使用原方法
+    ORGIviewDidLoad:function() {
+        //do something
+    },
+    ...
+})
+```
+
+#### 导入头文件
+
+`require('UIColor,UIView,NSURL,NSURLRequest,UIFont,UILabel'); `
+
+```javascript
+require('UIView')
+var view = UIView.alloc().init()
+view.setBackgroundColor(require('UIColor').grayColor())
+view.setAlpha(0.5)
+```
 
 ####Protocol
 
+```javascript
+//JSPatch
+defineClass("JPViewController: UIViewController <UIAlertViewDelegate>", {
+  viewDidAppear: function(animated) {
+    var alertView = require('UIAlertView').alloc().initWithTitle_message_delegate_cancelButtonTitle_otherButtonTitles("Alert", self.dataSource().objectAtIndex(indexPath.row()), self, "OK", null)
+     alertView.show()
+  },
+    
+  alertView_clickedButtonAtIndex: function(alertView, buttonIndex) {
+    console.log('clicked index ' + buttonIndex)
+  }
+})
 ```
-
-```
-
-####常用结构 同类方法,不能使用;结尾,需要使用逗号 或者什么都不写
-
-####导入头文件
-
-require('UIColor,UIView,NSURL,NSURLRequest,UIFont,UILabel'); 
-
-####在方法名前加 ORIG 即可调用未覆盖前的 OC 原方法:
 
 ####动态新增 Property
 
+```js
+defineClass("JPTableViewController", ['data', 'totalCount'], {
+  init: function() {
+     self = self.super().init()
+     self.setData(["a", "b"])     //添加新的 Property (id data)
+     self.setTotalCount(2)
+     return self
+  },
+  viewDidLoad: function() {
+     var data = self.data()     //获取 Property 值
+     var totalCount = self.totalCount()
+  },
+})
+```
+
 ####结构体
 
-####Selector  注意方法名左右是双引号 “”
+`JSPatch`原生支持 `CGRect / CGPoint / CGSize / NSRange` 这四个 `struct` 类型，用 `JS` 对象表示:
+
+```objective-c
+CGRectMake(20, 20, 100, 100)                      //OC
+{x:20, y:20, width:100, height:100}               //JSPatch
+
+CGPointMake(10,10)                                //OC
+{x: 10, y: 10}                                    //JSPatch
+
+CGSizeMake(100, 100)                              //OC
+{width: 100, height:100}                          //JSPatch
+
+NSMakeRange(0, 1)                                 //OC
+{location: 0, length: 1}                          //JSPatch
+```
+
+- 若要让 JS 脚本支持其他 struct 类型，需要先手动注册[添加 struct 类型支持](https://github.com/bang590/JSPatch/wiki/添加-struct-类型支持)
+
+  ```
+  //支持 CGAffineTransform
+  require('JPEngine').defineStruct({
+    "name": "CGAffineTransform",
+    "types": "FFFFFF",
+    "keys": ["a", "b", "c", "d", "tx", "ty"]
+  })
+  ```
+
+####Selector 
+
+在JS使用字符串代表 `Selector`（需要使用“ ”包裹字符串）:
+
+```objective-c
+//Obj-C
+[self performSelector:@selector(viewWillAppear:) withObject:@(YES)];
+
+//JS
+self.performSelector_withObject("viewWillAppear:", 1)
+```
+
+#### 打印
+
+`console.log()`
 
 ####nil
 
+JS 上的 `null` 和 `undefined` 都代表 OC 的 `nil`，如果要表示 `NSNull`, 用 `nsnull` 代替，如果要表示 `NULL`, 也用 `null` 代替
+
 ####NSArray / NSString / NSDictionary
 
-####Block
+`NSArray / NSString / NSDictionary` 不会自动转成对应的 JS 类型，像普通 `NSObject` 一样使用它们
+
+```objective-c
+//在OC中创建的数组和字典
+@implementation JPObject
++ (NSArray *)data {
+  return @[[NSMutableString stringWithString:@"JS"]]
+}
++ (NSMutableDictionary *)dict {
+    return [[NSMutableDictionary alloc] init];
+}
+@end
+```
+
+```javascript
+//在JSPatch中获取与使用
+require('JPObject')
+var ocStr = JPObject.data().objectAtIndex(0)
+ocStr.appendString("Patch")
+
+var dict = JPObject.dict()
+dict.setObject_forKey(ocStr, 'name')
+console.log(dict.objectForKey('name'))
+```
 
 ####weak / strong
 
+```js
+var weakSelf = __weak(self)
+self.setCompleteBlock(block(function(){
+    ...
+    var strongSelf = __strong(self)
+    ...
+}))
+```
+
+####Block
+
+- block传值
+
+  将JS函数作为block传递给OC
+
+  需要使用`block(paramTypes, function)`接口包装
+
+  ```objective-c
+  + (void)request:(void(^)(NSString *content, BOOL success))callback {
+      callback(@"I'm content", YES);
+  }
+  ```
+
+  ```javascript
+  require('ViewController').request(block("NSString *, BOOL", function(ctn, succ) {
+        if (succ) log(ctn)  //output: I'm content
+  }));
+  ```
+
+  将OC中的block传递给JSPatch
+
+  ```objective-c
+  typedef void(^JPBlock)(NSDictionary *dict);
+  + (JPBlock)getBlock {
+      NSString *ctn = @"JSPatch";
+      JPBlock block = ^(NSDictionary *dict) {
+          NSLog(@"I'm %@, version: %@", ctn, dict[@"version"]);
+      };
+      return block;
+  }
+  ```
+
+  ```javascript
+  var block = require('ViewController').getBlock();
+  block({version:'1.0.0'});
+  ```
+
+  总结：JS 没有 block 类型的变量，OC 的 block 对象传到 JS 会变成 JS function，所有要从 JS 传 block 给 OC 都需要用 `block()` 接口包装。
+
 ####GCD
 
-####常量、枚举、宏、全局变量
+使用 `dispatch_after() dispatch_async_main()` `dispatch_sync_main() dispatch_async_global_queue()` 接口调用GCD方法:
 
-####stringWithFormat
+```javascript
+dispatch_after(1.0, function(){
+  // do something
+})
+dispatch_async_main(function(){
+  // do something
+})
+dispatch_sync_main(function(){
+  // do something
+})
+dispatch_async_global_queue(function(){
+  // do something
+})
+```
 
-####NSNumber 相关问题
+####枚举、宏、全局变量
 
-####for...in
+- OC中的枚举 要直接换成 具体值替换 `UIControlEventTouchUpInside` => `1<<6`
 
-####内存释放问题
+  ```objective-c
+  [btn addTarget:self action:@selector(handleBtn) forControlEvents:UIControlEventTouchUpInside];
+  ```
 
-####dealloc 问题
+  ```js
+  btn.addTarget_action_forControlEvents(self, "handleBtn", 1<<6);
+  ```
+
+- 宏
+
+  Objective-C 里的宏不能直接在 JS 上使用，可以使用全局变量替代
+
+- 全局变量
+
+  在类里定义的 `static` 全局变量无法在 JS 上获取到，若要在 JS 拿到这个变量，需要在 OC 用get方法返回：
+
+  ```objective-c
+  static NSString *name;
+  @implementation JPTestObject
+  + (NSString *)name {
+    return name;
+  }
+  @end
+  ```
+
+  ```javascript
+  var name = JPTestObject.name() //拿到全局变量值
+  ```
 
 
 
-- [JSPatch 代码转换器](https://jspatch.com/Tools/convertor)
-
-## 总结
+###[JSPatch 代码转换器](https://jspatch.com/Tools/convertor)
 
 
+
+## 实践
+
+[JSPatchDemo]()
 
 
 

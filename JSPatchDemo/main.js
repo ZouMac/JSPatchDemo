@@ -1,11 +1,3 @@
-//
-//
-//require('UIView, UIColor')
-//var view = UIView.alloc().init()
-//var redColor = UIColor.redColor()
-//
-//view.setBackgroundColor(redColor);
-//var bgColor = view.backgroundColor();
 
 defineClass('JSPatchViewController', {
             handleBtn: function(sender) {
@@ -14,11 +6,11 @@ defineClass('JSPatchViewController', {
             }
             })
 
-require("UIButton, UIScreen, UIColor, JSPatchViewController");
+//require("UIButton, UIScreen, UIColor, JSPatchViewController");
 
 defineClass('ViewController', {
             createSubview:function(sender) {
-                var tableViewCtrl = JSPatchViewController.alloc().init()
+                var tableViewCtrl = require('JPTableViewController').alloc().init()
                 self.navigationController().pushViewController_animated(tableViewCtrl, YES)
             },
             
@@ -27,20 +19,39 @@ defineClass('ViewController', {
                 var button =  require('UIButton').buttonWithType(0);
                 button.setTitle_forState("newFunction", 0);
 //                var red = UIColor.redColor();
-                var blue = UIColor.blueColor();
+                var blue = require('UIColor').blueColor();
                 button.setTitleColor_forState(blue, 0);
 //                button.setBackgroundColor(red);
                 self.view().addSubview(button);
                 button.setFrame({x:100, y:500, width:200, height:120});
                 button.addTarget_action_forControlEvents(self,"newFunc",1 << 6);
             
+                self.getClassName();
+            
+                require('ViewController').request(block("NSString *, BOOL", function(ctn, succ) {
+                      if (succ) log(ctn)  //output: I'm content
+                }));
+            
+            //block
+            var block = require('ViewController').getBlock();
+            block({version:'5000'});
+//            var showMessage = require('ViewController').alloc().init().showMessage();
+//            showMessage({'dsadsa'});
+            
             },
             
-            newFunc:function(){
+            getClassName:function() {
+                console.log(self.class());
+                return self.class();
+            },
+            
+            newFunc:function() {
                 console.log('new function start');
                 var tableViewCtrl = JSPatchViewController.alloc().init()
                 self.navigationController().pushViewController_animated(tableViewCtrl, YES)
-            }
+            },
+            
+            
             
             },{});
 

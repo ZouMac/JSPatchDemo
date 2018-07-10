@@ -12,6 +12,8 @@
 #import "JSPatchViewController.h"
 
 
+typedef void(^JPBlock)(NSDictionary *dict);
+
 @interface ViewController ()
 
 @end
@@ -26,6 +28,7 @@ static void setBlackBackground(id slf, SEL sel) {
     vc.view.backgroundColor = [UIColor blackColor];
 }
 
+
 @implementation ViewController
 
 - (void)viewDidLoad {
@@ -33,11 +36,26 @@ static void setBlackBackground(id slf, SEL sel) {
     // Do any additional setup after loading the view, typically from a nib.
     self.title = @"firstPage";
     
+    [ViewController request:^(NSString *content, BOOL success) {
+        NSLog(@"%@",content);
+    }];
+    
 }
+
+
++ (JPBlock)getBlock {
+    NSString *ctn = @"JSPatch";
+    JPBlock block = ^(NSDictionary *dict) {
+        NSLog(@"I'm %@, version: %@", ctn, dict[@"version"]);
+    };
+    return block;
+}
+
 
 - (void)changeTitle {
     self.title = @"changeTitle";
 }
+
 
 //为注册的新类 添加方法
 - (IBAction)registerClass:(id)sender {
@@ -95,17 +113,11 @@ static void setBlackBackground(id slf, SEL sel) {
     id JSPatchVC = [[JPTableViewControllerClass alloc] init];
     [self.navigationController pushViewController:JSPatchVC animated:YES];
     
-    
-//    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [button addTarget:self action:@selector(newFunc) forControlEvents:UIControlEventTouchUpInside];
-//    [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-//    [button setTitle:@"newFunction" forState:UIControlStateNormal];
-//    [self.view addSubview:button];
-//    
-//    CGSize size = [UIScreen mainScreen].bounds.size;
-//    button.frame = CGRectMake(size.width / 2, size.height - 100, 80, 40);
 }
 
++ (void)request:(void(^)(NSString *content, BOOL success))callback {
+    callback(@"I'm content", YES);
+}
 
 
 - (void)didReceiveMemoryWarning {
