@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		630E317120F36318009A92C1 /* JSPatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 630E317020F36318009A92C1 /* JSPatchViewController.m */; };
+		63434F9820F3C6A60006FDF6 /* CompareJSPatchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63434F9720F3C6A60006FDF6 /* CompareJSPatchController.m */; };
 		6358A53C20F35870001357E4 /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = 6358A53B20F35870001357E4 /* main.js */; };
 		63809A7620F3557000ABBFCA /* packer.php in Resources */ = {isa = PBXBuildFile; fileRef = 63809A6420F3557000ABBFCA /* packer.php */; };
 		63809A7720F3557000ABBFCA /* RSA.m in Sources */ = {isa = PBXBuildFile; fileRef = 63809A6820F3557000ABBFCA /* RSA.m */; };
@@ -64,6 +65,8 @@
 /* Begin PBXFileReference section */
 		630E316F20F36318009A92C1 /* JSPatchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSPatchViewController.h; sourceTree = "<group>"; };
 		630E317020F36318009A92C1 /* JSPatchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSPatchViewController.m; sourceTree = "<group>"; };
+		63434F9620F3C6A60006FDF6 /* CompareJSPatchController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompareJSPatchController.h; sourceTree = "<group>"; };
+		63434F9720F3C6A60006FDF6 /* CompareJSPatchController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompareJSPatchController.m; sourceTree = "<group>"; };
 		6358A53B20F35870001357E4 /* main.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = main.js; sourceTree = "<group>"; };
 		63809A6420F3557000ABBFCA /* packer.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = packer.php; sourceTree = "<group>"; };
 		63809A6520F3557000ABBFCA /* JPLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPLoader.h; sourceTree = "<group>"; };
@@ -268,6 +271,8 @@
 				63D1834920F2475E004A495C /* SecondViewController.m */,
 				630E316F20F36318009A92C1 /* JSPatchViewController.h */,
 				630E317020F36318009A92C1 /* JSPatchViewController.m */,
+				63434F9620F3C6A60006FDF6 /* CompareJSPatchController.h */,
+				63434F9720F3C6A60006FDF6 /* CompareJSPatchController.m */,
 				63D1833220F2459D004A495C /* Main.storyboard */,
 				63D1833520F2459E004A495C /* Assets.xcassets */,
 				63D1833720F2459E004A495C /* LaunchScreen.storyboard */,
@@ -528,6 +533,7 @@
 				630E317120F36318009A92C1 /* JSPatchViewController.m in Sources */,
 				63D183B520F26970004A495C /* JPProtocol.m in Sources */,
 				63D183A920F26970004A495C /* JPCGContext.m in Sources */,
+				63434F9820F3C6A60006FDF6 /* CompareJSPatchController.m in Sources */,
 				63D1833120F2459D004A495C /* ViewController.m in Sources */,
 				63D183AE20F26970004A495C /* JPDevMenu.m in Sources */,
 				63809A7720F3557000ABBFCA /* RSA.m in Sources */,

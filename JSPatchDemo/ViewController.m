@@ -95,7 +95,17 @@ static void setBlackBackground(id slf, SEL sel) {
     id JSPatchVC = [[JPTableViewControllerClass alloc] init];
     [self.navigationController pushViewController:JSPatchVC animated:YES];
     
+    
+//    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [button addTarget:self action:@selector(newFunc) forControlEvents:UIControlEventTouchUpInside];
+//    [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+//    [button setTitle:@"newFunction" forState:UIControlStateNormal];
+//    [self.view addSubview:button];
+//    
+//    CGSize size = [UIScreen mainScreen].bounds.size;
+//    button.frame = CGRectMake(size.width / 2, size.height - 100, 80, 40);
 }
+
 
 
 - (void)didReceiveMemoryWarning {
