@@ -14,7 +14,7 @@ defineClass('ViewController', {
                 self.navigationController().pushViewController_animated(tableViewCtrl, YES)
             },
             
-            viewDidLoad:function() {
+            ORGIviewDidLoad:function() {
                 self.setTitle('NEW_FUNCTION_PAGE');
                 var button =  require('UIButton').buttonWithType(0);
                 button.setTitle_forState("newFunction", 0);
@@ -28,11 +28,9 @@ defineClass('ViewController', {
             
                 self.getClassName();
             
-                require('ViewController').request(block("NSString *, BOOL", function(ctn, succ) {
-                      if (succ) log(ctn)  //output: I'm content
-                }));
             
-            //block
+            
+//            block
             var block = require('ViewController').getBlock();
             block({version:'5000'});
 //            var showMessage = require('ViewController').alloc().init().showMessage();
@@ -47,8 +45,12 @@ defineClass('ViewController', {
             
             newFunc:function() {
                 console.log('new function start');
-                var tableViewCtrl = JSPatchViewController.alloc().init()
-                self.navigationController().pushViewController_animated(tableViewCtrl, YES)
+//            require('JPEngine').addExtensions(['JPBlock']);
+            require('ViewController').request(block("void, id", function(ctn) {
+                                                    console.log(ctn);
+                                                    }));
+//                var tableViewCtrl = JSPatchViewController.alloc().init()
+//                self.navigationController().pushViewController_animated(tableViewCtrl, YES)
             },
             
             
