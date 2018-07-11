@@ -485,6 +485,16 @@ dispatch_async_global_queue(function(){
 
 
 
+## 调试
+
+#####在 iOS8 下，JSPatch 支持使用 Safari 自带的调试工具对 JS 脚本进行断点调试
+
+- 开启 Safari 调试菜单：Safari -> 偏好设置 -> 高级 -> 勾选[在菜单栏中显示“开发”菜单]
+- 启动APP -> Safari -> 开发 -> 选择你的机器 -> JSContext
+- 连接真机调试时，需要打开真机的web检查器：设置 -> Safari -> 高级 -> Web检查器
+
+![JSContext](JSContext.png)
+
 ## 实践
 
 [JSPatchDemo]()

@@ -14,7 +14,7 @@ defineClass('ViewController', {
                 self.navigationController().pushViewController_animated(tableViewCtrl, YES)
             },
             
-            ORGIviewDidLoad:function() {
+            viewDidLoad:function() {
                 self.setTitle('NEW_FUNCTION_PAGE');
                 var button =  require('UIButton').buttonWithType(0);
                 button.setTitle_forState("newFunction", 0);
