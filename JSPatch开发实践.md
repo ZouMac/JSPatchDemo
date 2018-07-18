@@ -6,29 +6,6 @@ JSPatch是一个开源的项目[Github](https://github.com/bang590/JSPatch)，�
 
 ### 实现原理
 
-- 为注册的新类添加方法
-
-  ```objective-c
-  Class cls = objc_allocateClassPair(superCls, "JPObject", 0);
-  objc_registerClassPair(cls);
-
-  SEL selector = NSSelectorFromString(@"setRedBackground");
-  class_addMethod(cls, selector, setBlackBackground, "");
-
-  id newVC = [[cls alloc] init];
-  [self.navigationController pushViewController:newVC animated:YES];
-  ```
-
-- 替换某个类的方法为新的实现
-
-  ```objective-c
-  Class sourceClass = NSClassFromString(@"ViewController");
-  id sourceControler = [[sourceClass alloc] init];
-   
-  SEL changeTitle = NSSelectorFromString(@"changeTitle");   
-  class_replaceMethod(sourceClass, changeTitle, donotChangeTitle, "");    [sourceControler performSelector:changeTitle];
-  ```
-
 - 类名 方法名 映射 相应的类和方法
 
   ```objective-c
@@ -40,6 +17,31 @@ JSPatch是一个开源的项目[Github](https://github.com/bang590/JSPatch)，�
   [viewController performSelector:selector];
       
   [self.navigationController pushViewController:viewController animated:YES];
+  ```
+
+- 为注册的新类添加方法
+
+  ```objective-c
+  Class superCls = NSClassFromString(@"ViewController");
+  Class cls = objc_allocateClassPair(superCls, "childViewController", 0);
+  objc_registerClassPair(cls);
+
+  SEL selector = NSSelectorFromString(@"setBlueBackground");
+  class_addMethod(cls, selector, setBlueBackground, "v@:");
+
+  id newVC = [[cls alloc] init];
+  [self.navigationController pushViewController:newVC animated:YES];
+  [newVC performSelector:@selector(setBlueBackground)];
+  ```
+
+- 替换某个类的方法为新的实现
+
+  ```objective-c
+  Class sourceClass = NSClassFromString(@"ViewController");
+  id sourceControler = [[sourceClass alloc] init];
+   
+  SEL changeTitle = NSSelectorFromString(@"changeTitle");   
+  class_replaceMethod(sourceClass, changeTitle, donotChangeTitle, "");    [sourceControler performSelector:changeTitle];
   ```
 
 ###方法调用
@@ -397,7 +399,8 @@ self.setCompleteBlock(block(function(){
   ```
 
   ```javascript
-  require('ViewController').request(block("NSString *, BOOL", function(ctn, succ) {
+  require('JPEngine').addExtensions(['JPBlock']);//接入JPBlock扩展，使用完整的block
+  require('ViewController').request(block("void, NSString *, BOOL", function(ctn, succ) {
         if (succ) log(ctn)  //output: I'm content
   }));
   ```
@@ -421,6 +424,8 @@ self.setCompleteBlock(block(function(){
   ```
 
   总结：JS 没有 block 类型的变量，OC 的 block 对象传到 JS 会变成 JS function，所有要从 JS 传 block 给 OC 都需要用 `block()` 接口包装。
+
+- [JPBlock扩展](https://github.com/bang590/JSPatch/wiki/JPBlock-扩展使用文档)
 
 ####GCD
 
@@ -480,15 +485,19 @@ dispatch_async_global_queue(function(){
 
 
 
+## 调试
+
+#####在 iOS8 下，JSPatch 支持使用 Safari 自带的调试工具对 JS 脚本进行断点调试
+
+- 开启 Safari 调试菜单：Safari -> 偏好设置 -> 高级 -> 勾选[在菜单栏中显示“开发”菜单]
+- 启动APP -> Safari -> 开发 -> 选择你的机器 -> JSContext
+- 连接真机调试时，需要打开真机的web检查器：设置 -> Safari -> 高级 -> Web检查器
+
+![JSContext](JSContext.png)
+
 ## 实践
 
 [JSPatchDemo]()
-
-
-
-
-
-
 
 
 

@@ -16,6 +16,7 @@ typedef void(^JPBlock)(NSDictionary *dict);
 
 @interface ViewController ()
 
+
 @end
 
 
@@ -23,9 +24,9 @@ static void donotChangeTitle(id slf, SEL sel) {
     NSLog(@"-------class_replaceMethod-------");
 }
 
-static void setBlackBackground(id slf, SEL sel) {
+static void setBlueBackground(id slf, SEL sel) {
     UIViewController *vc = (UIViewController *)slf;
-    vc.view.backgroundColor = [UIColor blackColor];
+    vc.view.backgroundColor = [UIColor blueColor];
 }
 
 
@@ -36,7 +37,7 @@ static void setBlackBackground(id slf, SEL sel) {
     // Do any additional setup after loading the view, typically from a nib.
     self.title = @"firstPage";
     
-    [ViewController request:^(NSString *content, BOOL success) {
+    [ViewController request:^(NSString *content) {
         NSLog(@"%@",content);
     }];
     
@@ -61,14 +62,15 @@ static void setBlackBackground(id slf, SEL sel) {
 - (IBAction)registerClass:(id)sender {
     
     Class superCls = NSClassFromString(@"ViewController");
-    Class cls = objc_allocateClassPair(superCls, "JPObject", 0);
+    Class cls = objc_allocateClassPair(superCls, "childViewController", 0);
     objc_registerClassPair(cls);
     
-    SEL selector = NSSelectorFromString(@"setRedBackground");
-    class_addMethod(cls, selector, setBlackBackground, "");
+    SEL selector = NSSelectorFromString(@"setBlueBackground");
+    class_addMethod(cls, selector, setBlueBackground, "v@:");
     
     id newVC = [[cls alloc] init];
     [self.navigationController pushViewController:newVC animated:YES];
+    [newVC performSelector:@selector(setBlueBackground)];
 }
 
 //替换某个类的方法为新的实现
@@ -115,8 +117,8 @@ static void setBlackBackground(id slf, SEL sel) {
     
 }
 
-+ (void)request:(void(^)(NSString *content, BOOL success))callback {
-    callback(@"I'm content", YES);
++ (void)request:(void(^)(NSString *content))callback {
+    callback(@"I'm content");
 }
 
 
