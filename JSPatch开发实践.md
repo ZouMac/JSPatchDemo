@@ -25,10 +25,10 @@ JSPatch是一个开源的项目[Github](https://github.com/bang590/JSPatch)，�
   Class superCls = NSClassFromString(@"ViewController");
   Class cls = objc_allocateClassPair(superCls, "childViewController", 0);
   objc_registerClassPair(cls);
-
+  
   SEL selector = NSSelectorFromString(@"setBlueBackground");
   class_addMethod(cls, selector, setBlueBackground, "v@:");
-
+  
   id newVC = [[cls alloc] init];
   [self.navigationController pushViewController:newVC animated:YES];
   [newVC performSelector:@selector(setBlueBackground)];
@@ -43,10 +43,11 @@ JSPatch是一个开源的项目[Github](https://github.com/bang590/JSPatch)，�
   SEL changeTitle = NSSelectorFromString(@"changeTitle");   
   class_replaceMethod(sourceClass, changeTitle, donotChangeTitle, "");    [sourceControler performSelector:changeTitle];
   ```
+  实现原理：JS传递字符串给OC，OC通过 Runtime 接口调用和替换OC方法。
 
 ###方法调用
 
-引入JSPatch后，可以通过以下代码创建一个UIView对象，并且设置背景颜色和透明度。涵盖了 require 引入类，JS 调用接口，消息传递，对象持有和转换，参数转换这五个方面，接下来逐一看看具体实现。
+引入JSPatch后，可以通过以下代码创建一个UIView对象，并且设置背景颜色和透明度。涵盖了 require 引入类，JS 调用接口，消息传递，对象持有和转换，参数转换这五个方面。
 
 ```js
 require('UIView')
@@ -72,11 +73,67 @@ var _require = function(clsName) {
 
 ####JS调用接口
 
-a.`require('UIView')` 这句话在 JS 全局作用域生成了 `UIView` 这个对象，它有个属性叫 `__isCls`，表示这代表一个 OC 类。 b.调用 `UIView` 这个对象的 `alloc()` 方法，会去到 `__c()`函数，在这个函数里判断到调用者 `__isCls` 属性，知道它是代表 OC 类，把方法名和类名传递给 OC 完成调用。
+a.`require('UIView')` 这句话在 JS 全局作用域生成了 `UIView` 这个对象，它有个属性叫 `__isCls`，表示这代表一个 OC 类。调用 `UIView` 这个对象的 `alloc()` 方法，会去到 `__c()`函数，在这个函数里判断到调用者 `__isCls` 属性，知道它是代表 OC 类，把方法名和类名传递给 OC 完成调用。实现类似OC/Lua/Ruby等的消息转发机制：
 
-b.对于一个自定义id对象，JavaScriptCore 会把这个自定义对象的指针传给 JS，这个对象在 JS 无法使用，但在回传给 OC 时 OC 可以找到这个对象。对于这个对象生命周期的管理，按我的理解如果JS有变量引用时，这个 OC 对象引用计数就加1 ，JS 变量的引用释放了就减1，如果 OC 上没别的持有者，这个OC对象的生命周期就跟着 JS 走了，会在 JS 进行垃圾回收时释放。
+```javascript
+UIView.alloc().init()
+->
+UIView.__c('alloc')().__c('init')()
+```
+
+```javascript
+Object.prototype.__c = function(methodName) {
+  if (!this.__obj && !this.__clsName) return this[methodName].bind(this);
+  var self = this
+  return function(){
+    var args = Array.prototype.slice.call(arguments)
+    return _methodFunc(self.__obj, self.__clsName, methodName, args, self.__isSuper)
+  }
+}
+```
+
+`_methodFunc()` 就是把相关信息传给OC，OC用 Runtime 接口调用相应方法，返回结果值，这个调用就结束了。
+
+b.对于一个自定义id对象，JavaScriptCore 会把这个自定义对象的指针传给 JS，这个对象在 JS 无法使用，但在回传给 OC 时 OC 可以找到这个对象。对于这个对象生命周期的管理，如果JS有变量引用时，这个 OC 对象引用计数就加1 ，JS 变量的引用释放了就减1，如果 OC 上没别的持有者，这个OC对象的生命周期就跟着 JS 走了，会在 JS 进行垃圾回收时释放。
+
+####消息传递
+
+消息传递使用了JavaScriptCore 的接口，OC端在启动JSPatch引擎时会创建一个 JSContext 实例，JSContext 是JS代码的执行环境，可以给 JSContext 添加方法，JS就可以直接调用这个方法。JS通过调用 JSContext 定义的方法把数据传给OC，OC通过返回值传会给JS：
+
+```javascript
+JSContext *context = [[JSContext alloc] init];
+context[@"hello"] = ^(NSString *msg) {
+    NSLog(@"hello %@", msg);
+};
+[_context evaluateScript:@"hello('word')"];   
+```
 
 #### 方法替换
+
+让`ORIGViewDidLoad`指向`viewDidLoad`,`viewDidLoad`指向新的实现`viewDidLoadIMP`。
+
+```objective-c
+static void viewDidLoadIMP (id slf, SEL sel) {
+   JSValue *jsFunction = …;
+   [jsFunction callWithArguments:nil];
+}
+ 
+Class cls = NSClassFromString(@"UIViewController");
+SEL selector = @selector(viewDidLoad);
+Method method = class_getInstanceMethod(cls, selector);
+ 
+//获得viewDidLoad方法的函数指针
+IMP imp = method_getImplementation(method)
+ 
+//获得viewDidLoad方法的参数类型
+char *typeDescription = (char *)method_getTypeEncoding(method);
+ 
+//新增一个ORIGViewDidLoad方法，指向原来的viewDidLoad实现
+class_addMethod(cls, @selector(ORIGViewDidLoad), imp, typeDescription);
+ 
+//把viewDidLoad IMP指向自定义新的实现
+class_replaceMethod(cls, selector, viewDidLoadIMP, typeDescription);
+```
 
 替换 UIViewController 的 -viewWillAppear: 方法为例：
 

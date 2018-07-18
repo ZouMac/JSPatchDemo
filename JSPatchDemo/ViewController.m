@@ -66,6 +66,9 @@ static void setBlueBackground(id slf, SEL sel) {
     objc_registerClassPair(cls);
     
     SEL selector = NSSelectorFromString(@"setBlueBackground");
+//    Method method = class_getInstanceMethod(cls, selector);
+//    IMP imp = method_getImplementation(method);
+    
     class_addMethod(cls, selector, setBlueBackground, "v@:");
     
     id newVC = [[cls alloc] init];
